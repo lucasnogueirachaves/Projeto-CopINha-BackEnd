@@ -1,0 +1,24 @@
+{
+  "name": "projetofinal",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "tsx watch src/server.ts",
+    "start:prod": "node build/server.js",
+    "build": "tsup"
+  },
+  "keywords": [],
+  "type": "module",
+  "dependencies": {
+    "dotenv": "17.4.2",
+    "fastify": "5.11.2",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "26.1.2",
+    "tsup": "8.5.1",
+    "tsx": "4.23.5",
+    "typescript": "7.0.2"
+  }
+}
