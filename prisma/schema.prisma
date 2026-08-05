@@ -8,7 +8,6 @@ datasource db {
 }
 
 enum MatchStatus {
-  TODOS @map("todos")
   ENCERRADO @map("encerrado")
   PROXIMO @map("proximo")
 }
@@ -16,7 +15,7 @@ enum MatchStatus {
 enum Action {
   CREATE @map("create")
   DELETE @map("delete")
-  EDIT @map("edit")
+  UPDATE @map("update")
 }
 
 model Admin {
@@ -26,9 +25,12 @@ model Admin {
   password String
 
   news News[]
-  actionLog ActionLog[]
+  actionLogs ActionLog[]
 
-  @@map("admin")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("admins")
 }
 
 model Team {
@@ -43,9 +45,12 @@ model Team {
 
   homeMatches Match[] @relation("HomeMatches")
 
-  awayMathes Match[] @relation("AwayMatches")
+  awayMatches Match[] @relation("AwayMatches")
 
-  @@map("team")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("teams")
 }
 
 model Group {
@@ -56,6 +61,11 @@ model Group {
   teams Team[]
   matches Match[]
   news News[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("groups")
 }
 
 model Match {
@@ -64,10 +74,10 @@ model Match {
   date DateTime
   local String
 
-  homeGoals Int
-  awayGoals Int
+  homeGoals Int?
+  awayGoals Int?
 
-  status MatchStatus @default(TODOS)
+  status MatchStatus @default(PROXIMO)
 
   groupId Int
   group Group @relation(fields: [groupId], references: [id])
@@ -77,6 +87,11 @@ model Match {
 
   awayTeamId Int
   awayTeam Team @relation("AwayMatches", fields: [awayTeamId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("match")
 }
 
 model News {
@@ -92,10 +107,13 @@ model News {
   authorId Int
   author Admin @relation(fields: [authorId], references: [id])
 
-  groupId Int
-  group Group @relation(fields: [groupId], references: [id])
+  groupId Int?
+  group Group? @relation(fields: [groupId], references: [id])
 
   createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("news")
 }
 
 model ActionLog {
@@ -107,6 +125,10 @@ model ActionLog {
 
   action Action
 
-  target String
-  targetId String
+  entity String
+  entityId String
+
+  createdAt DateTime @default(now())
+
+  @@map("action_log")
 }
