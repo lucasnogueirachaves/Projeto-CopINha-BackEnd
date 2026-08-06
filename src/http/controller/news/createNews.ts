@@ -3,6 +3,7 @@ import { prisma } from '@/libs/prisma.js'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 
 export async function createNews(request: FastifyRequest, reply: FastifyReply) {
+    
     const createNewsBodySchema = z.object({
         title: z.string(),
         summary: z.string(),
