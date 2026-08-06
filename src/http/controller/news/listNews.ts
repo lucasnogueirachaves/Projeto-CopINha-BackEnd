@@ -19,11 +19,6 @@ export async function listNews(request: FastifyRequest, reply: FastifyReply) {
         include: {
             author: true,
             group: true,
-            title: true,
-            readingTime: true,
-            summary: true,
-            createdAt: true,
-            image: true
         }
     })
     return reply.status(200).send(news)
