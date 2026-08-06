@@ -4,11 +4,25 @@ import type { FastifyReply, FastifyRequest } from 'fastify'
 
 export async function listRelatedNews(request: FastifyRequest, reply: FastifyReply) {
     const listNewsQuerySchema = z.object({
-        groupId: z.coerce.number(),
-        currentNewsId: z.coerce.number()
+        id: z.coerce.number()
         })
-    const { groupId , currentNewsId } = listNewsQuerySchema.parse(request.query)
+    const { id:currentNewsId } = listNewsQuerySchema.parse(request.params)
     const perPage = 3
+
+        const groupId = await prisma.news.findUnique({
+            where: {
+                id: currentNewsId
+            },
+            select: {
+                groupId: true
+            }
+        })
+    
+    if (!groupId) {
+        return reply.status(404).send({
+            message: 'Notícia não encontrada'
+        })
+    }
 
     const news = await prisma.news.findMany({
         take: perPage,
@@ -16,7 +30,7 @@ export async function listRelatedNews(request: FastifyRequest, reply: FastifyRep
             createdAt: 'desc'
         },
         where:{
-            groupId: groupId,
+            groupId: groupId.groupId,
             NOT: {
                 id: currentNewsId
             }
