@@ -37,4 +37,20 @@ export class PrismaGroupsRepository implements GroupsRepository {
             }
         })
     }
+    async classification(publicId: string) {
+        return prisma.group.findUnique({
+            where: {
+                publicId
+            },
+            include: {
+                teams: true,
+                matches: {
+                    include: {
+                        homeTeam: true,
+                        awayTeam: true
+                    }
+                }
+            }
+        })
+    }
 }
