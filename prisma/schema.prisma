@@ -51,7 +51,7 @@ model Team {
   updatedAt DateTime @updatedAt
 
   @@map("teams")
-}
+} 
 
 model Group {
   id Int @id @default(autoincrement())
