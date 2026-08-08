@@ -6,7 +6,7 @@ export async function getNews(request: FastifyRequest, reply: FastifyReply) {
     const {id: newsId} = request.params as {id: number}
     const news = await prisma.news.findUnique({
         where: {
-            id: newsId
+            id: Number(newsId)
         },
         include: {
             author: true, 
