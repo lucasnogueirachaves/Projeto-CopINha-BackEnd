@@ -4,7 +4,7 @@ import type { FastifyReply, FastifyRequest } from 'fastify'
 
 export async function listNews(request: FastifyRequest, reply: FastifyReply) {
     const listNewsQuerySchema = z.object({
-        page: z.number().optional().default(1),
+        page: z.coerce.number().optional().default(1),
         })
     const { page } = listNewsQuerySchema.parse(request.query)
     const perPage = 5
