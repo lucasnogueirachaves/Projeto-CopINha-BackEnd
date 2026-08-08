@@ -12,7 +12,7 @@ const prisma = new PrismaClient({
 })
 
 async function main() {
-    const passwordHash = await bcrypt.hash("12345678", 10)
+    const passwordHash = await bcrypt.hash("Lj16731252#", 10)
 
     await prisma.admin.create({
     data: {
