@@ -23,10 +23,10 @@ export async function createMatch(request: FastifyRequest, reply: FastifyReply) 
         select: { groupId: true }
     })
 
-    const IsSameGroup = groupAwayTeam?.groupId === groupHomeTeam?.groupId
+    const IsSameGroup = groupAwayTeam?.groupId === groupHomeTeam?.groupId && groupHomeTeam?.groupId === groupId
 
     if (!IsSameGroup) {
-        return reply.status(400).send({ message: 'Os times devem pertencer ao mesmo grupo' })
+        return reply.status(400).send({ message: 'Os times devem pertencer ao mesmo grupo referente a partida' })
     }
 
     if (homeTeamId === awayTeamId) {
