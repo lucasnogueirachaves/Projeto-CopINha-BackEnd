@@ -2,7 +2,10 @@ import { z } from 'zod'
 import { prisma } from '@/libs/prisma.js'
 import type { FastifyReply, FastifyRequest } from 'fastify'
 
-export async function createMatch(request: FastifyRequest, reply: FastifyReply) {
+export async function createMatch(
+    request: FastifyRequest,
+    reply: FastifyReply
+) {
     const createGameBodySchema = z.object({
         date: z.coerce.date(),
         local: z.string(),
@@ -42,5 +45,6 @@ export async function createMatch(request: FastifyRequest, reply: FastifyReply) 
         },
         include: { homeTeam: true, awayTeam: true, group: true },
     })
+
     return reply.status(201).send({ match })
 }

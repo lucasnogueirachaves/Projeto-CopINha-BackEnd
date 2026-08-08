@@ -19,4 +19,5 @@ export interface GroupsRepository {
     update(publicId: string, data: Prisma.GroupUpdateInput): Promise<Group | null>
     delete(publicId: string): Promise<void>
     classification(publicId: string): Promise<GroupWithTeamsAndMatches | null>
+    countTeams(groupId: number): Promise<number>
 }

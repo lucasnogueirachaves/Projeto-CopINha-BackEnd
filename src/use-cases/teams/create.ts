@@ -15,18 +15,30 @@ type CreateTeamUseCaseResponse = {
 }
 
 export class CreateTeamUseCase {
-    constructor(private teamsRepository: TeamsRepository, private groupsRepository: GroupsRepository) {}
+    constructor(
+        private teamsRepository: TeamsRepository,
+        private groupsRepository: GroupsRepository
+    ) {}
+
     async execute({
         name,
         acronym,
         flag,
         groupId
     }: CreateTeamUseCaseRequest): Promise<CreateTeamUseCaseResponse> {
+
         const group = await this.groupsRepository.readId(groupId)
 
         if (!group) {
             throw new ResourceNotFoundError()
         }
+
+        const teamsCount = await this.groupsRepository.countTeams(group.id)
+
+        if (teamsCount >= 4) {
+            throw new Error("O grupo já possui 4 times")
+        }
+
         const team = await this.teamsRepository.create({
             name,
             acronym,
@@ -37,6 +49,7 @@ export class CreateTeamUseCase {
                 }
             }
         })
-        return {team}
-        }
+
+        return { team }
+    }
 }

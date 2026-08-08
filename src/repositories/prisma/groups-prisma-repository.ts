@@ -53,4 +53,11 @@ export class PrismaGroupsRepository implements GroupsRepository {
             }
         })
     }
+    async countTeams(groupId: number) {
+        return prisma.team.count({
+            where: {
+                groupId
+            }
+        })
+    }
 }
