@@ -1,5 +1,6 @@
 import type { TeamsRepository } from "@/repositories/teams-repository.js";
 import { ResourceNotFoundError } from "../errors/resource-not-found-error.js";
+import type { GroupsRepository } from "@/repositories/groups-repository.js";
 import type { Team } from "@/generated/prisma/client.js";
 
 interface UpdateTeamUseCaseRequest {
@@ -24,10 +25,12 @@ export class UpdateTeamsUseCase {
             throw new ResourceNotFoundError()
         }
 
-        const group = await this.groupsRepository.findById(groupId)
+        if (groupId !== undefined) {
+            const group = await this.groupsRepository.readId(groupId)
 
-        if (!group) {
-            throw new ResourceNotFoundError()
+            if (!group) {
+                throw new ResourceNotFoundError()
+            }
         }
 
         const updateData: any = {}
@@ -35,7 +38,7 @@ export class UpdateTeamsUseCase {
         if (acronym !== undefined) updateData.acronym = acronym
         if (flag !== undefined) updateData.flag = flag
         if (groupId !== undefined) {
-            const group = await this.groupsRepository.findById(groupId)
+            const group = await this.groupsRepository.readId(groupId)
 
             if (!group) {
                 throw new ResourceNotFoundError()
