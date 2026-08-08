@@ -3,12 +3,13 @@ import type { FastifyReply, FastifyRequest } from 'fastify'
 import { z } from 'zod'
 
 export async function getMatch(request: FastifyRequest, reply: FastifyReply) {
-    const querySchema = z.object({
-        id: z.coerce.number(),
+    const paramsSchema = z.object({
+        publicId: z.string().uuid(),
     })
-    const { id } = querySchema.parse(request.params)
+    const { publicId } = paramsSchema.parse(request.params)
     const match = await prisma.match.findUnique({
-        where: { id },
+        where: { publicId },
+        include: { homeTeam: true, awayTeam: true, group: true },
     })
     if (!match) {
         return reply.status(404).send({ error: 'Partida não encontrada' })
