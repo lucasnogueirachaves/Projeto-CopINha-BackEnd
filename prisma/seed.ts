@@ -12,53 +12,67 @@ const prisma = new PrismaClient({
 })
 
 async function main() {
-    const passwordHash = await bcrypt.hash("Lj16731252#", 10)
+
+    await prisma.match.deleteMany()
+    await prisma.team.deleteMany()
+    await prisma.group.deleteMany()
+    await prisma.admin.deleteMany()
+
+    const passwordHash = await bcrypt.hash("12345678", 10)
 
     await prisma.admin.create({
-    data: {
-        email: "admin@copinha.com",
-        password: passwordHash
+        data: {
+            email: "admin@copinha.com",
+            password: passwordHash
         }
     })
+
     const groupA = await prisma.group.create({
         data: {
-            name: "Grupo A",
+            name: "Grupo A"
         }
     })
 
     const groupB = await prisma.group.create({
         data: {
-            name: "Grupo B",
+            name: "Grupo B"
         }
     })
 
-    await prisma.team.createMany({
-        data: [
-            {
-                name: "Brasil",
-                acronym: "BRA",
-                flag: "brasil.png",
-                groupId: groupA.id
-            },
-            {
-                name: "Argentina",
-                acronym: "ARG",
-                flag: "argentina.png",
-                groupId: groupA.id
-            },
-            {
-                name: "Japão",
-                acronym: "JPN",
-                flag: "japao.png",
-                groupId: groupA.id
-            },
-            {
-                name: "México",
-                acronym: "MEX",
-                flag: "mexico.png",
-                groupId: groupA.id
-            }
-        ]
+    const brasil = await prisma.team.create({
+        data: {
+            name: "Brasil",
+            acronym: "BRA",
+            flag: "brasil.png",
+            groupId: groupA.id
+        }
+    })
+
+    const argentina = await prisma.team.create({
+        data: {
+            name: "Argentina",
+            acronym: "ARG",
+            flag: "argentina.png",
+            groupId: groupA.id
+        }
+    })
+
+    const japao = await prisma.team.create({
+        data: {
+            name: "Japão",
+            acronym: "JPN",
+            flag: "japao.png",
+            groupId: groupA.id
+        }
+    })
+
+    const mexico = await prisma.team.create({
+        data: {
+            name: "México",
+            acronym: "MEX",
+            flag: "mexico.png",
+            groupId: groupA.id
+        }
     })
 
     await prisma.team.createMany({
@@ -77,6 +91,33 @@ async function main() {
             }
         ]
     })
+
+    await prisma.match.createMany({
+        data: [
+            {
+                date: new Date("2026-06-15T18:00:00Z"),
+                local: "Estádio",
+                homeGoals: null,
+                awayGoals: null,
+                status: "PROXIMO",
+                groupId: groupA.id,
+                homeTeamId: brasil.id,
+                awayTeamId: argentina.id
+            },
+            {
+                date: new Date("2026-06-16T18:00:00Z"),
+                local: "Estádio",
+                homeGoals: null,
+                awayGoals: null,
+                status: "PROXIMO",
+                groupId: groupA.id,
+                homeTeamId: japao.id,
+                awayTeamId: mexico.id
+            }
+        ]
+    })
+
+    console.log("Banco populado com sucesso!")
 }
 
 main()

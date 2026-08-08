@@ -6,6 +6,7 @@ import { readGroupId } from "./read-group-id.controller.js"
 import { updateGroups } from "./update-group.controller.js"
 import { deleteGroup } from "./delete-group.controller.js"
 import { classification } from "./classification.controller.js"
+import { simulator } from "./simulator.controller.js"
 
 export async function groupsRoutes(app: FastifyInstance) {
     app.post('/', {onRequest: verifyJwt}, createGroup)
@@ -14,4 +15,5 @@ export async function groupsRoutes(app: FastifyInstance) {
     app.put('/:publicId', {onRequest: verifyJwt}, updateGroups)
     app.delete('/:publicId', {onRequest: verifyJwt}, deleteGroup)
     app.get('/classification/:publicId', classification)
+    app.post('/simulate/:publicId', {onRequest: verifyJwt}, simulator)
 }
