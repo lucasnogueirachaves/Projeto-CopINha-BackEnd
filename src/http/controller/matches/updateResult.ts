@@ -9,25 +9,20 @@ export async function updateResult(request: FastifyRequest, reply: FastifyReply)
     })
     const { homeGoals, awayGoals } = updateResultBodySchema.parse(request.body)
 
-    const querySchema = z.object({
-        id: z.coerce.number(),
+    const paramsSchema = z.object({
+        publicId: z.string().uuid(),
     })
+    const { publicId } = paramsSchema.parse(request.params)
 
-    const matchId = querySchema.parse(request.params).id
-
-    const match = await prisma.match.findUnique({
-        where: { id: matchId },
-    })
+    const match = await prisma.match.findUnique({ where: { publicId } })
     if (!match) {
         return reply.status(404).send({ error: 'Match not found' })
     }
 
     const updatedMatch = await prisma.match.update({
-        where: { id: matchId },
-        data: {
-            homeGoals,
-            awayGoals,
-        },
+        where: { publicId },
+        data: { homeGoals, awayGoals, status: 'ENCERRADO' },
+        include: { homeTeam: true, awayTeam: true, group: true },
     })
     return reply.status(200).send({ match: updatedMatch })
 }
