@@ -40,5 +40,11 @@ export async function login(request: FastifyRequest, reply: FastifyReply) {
             }
         })
 
-    return reply.status(200).send({token})
+    return reply.status(200).send({
+        token,
+        user: {
+            id: String(user.id),
+            email: user.email
+        }
+    })
 }
