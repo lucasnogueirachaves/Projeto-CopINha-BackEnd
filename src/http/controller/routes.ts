@@ -6,7 +6,7 @@ import { groupsRoutes } from './groups/groups.routes.js';
 
 export async function routes(app: FastifyInstance) {
     app.post('/login', login);
-    app.register(newsRoutes, { prefix: '/news' });
+    app.register(newsRoutes);
     app.register(teamsRoutes, {prefix: '/teams'})
     app.register(groupsRoutes, {prefix: '/groups'})
 }
