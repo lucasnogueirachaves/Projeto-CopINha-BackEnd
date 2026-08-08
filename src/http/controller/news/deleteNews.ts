@@ -6,7 +6,7 @@ export async function deleteNews(request: FastifyRequest, reply: FastifyReply) {
 
     const news = await prisma.news.delete({
         where: {
-            id: newsId
+            id: Number(newsId)
         }
     })
     return reply.status(204).send(news)

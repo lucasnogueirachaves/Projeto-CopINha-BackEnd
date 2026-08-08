@@ -2,7 +2,7 @@ import { createNews } from './createNews.js'
 import { getNews } from './getNews.js'
 import { listRelatedNews } from './listRelatedNews.js'
 import { listNews } from './listNews.js'
-import { verifyJwt } from '../../middleware/verify-jwt.js'
+import { verifyJwt } from '../middleware/verify-jwt.js'
 import { deleteNews } from './deleteNews.js'
 
 export function newsRoutes(app: any) {

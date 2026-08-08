@@ -1,4 +1,5 @@
 import type { TeamsRepository } from "@/repositories/teams-repository.js";
+import type { GroupsRepository } from "@/repositories/groups-repository.js";
 import { ResourceNotFoundError } from "../errors/resource-not-found-error.js";
 import type { GroupsRepository } from "@/repositories/groups-repository.js";
 import type { Team } from "@/generated/prisma/client.js";
