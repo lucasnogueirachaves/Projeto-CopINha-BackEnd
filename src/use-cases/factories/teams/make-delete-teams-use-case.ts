@@ -1,9 +1,9 @@
-import { PrismaTeamsRepository } from "@/repositories/prisma/teams-prisma-repository.js"
-import { DeleteTeamIdUseCase } from "@/use-cases/teams/delete.js"
+import { PrismaTeamsRepository } from '@/repositories/prisma/teams-prisma-repository.js'
+import { DeleteTeamIdUseCase } from '@/use-cases/teams/delete.js'
 
 export function makeDeleteTeamUseCase() {
-    const teamsRepository = new PrismaTeamsRepository()
-    const deleteTeamUseCase = new DeleteTeamIdUseCase(teamsRepository)
+  const teamsRepository = new PrismaTeamsRepository()
+  const deleteTeamUseCase = new DeleteTeamIdUseCase(teamsRepository)
 
-    return deleteTeamUseCase
+  return deleteTeamUseCase
 }

@@ -1,8 +1,7 @@
-import { PrismaGroupsRepository } from "@/repositories/prisma/groups-prisma-repository.js"
-import { SimulatorUseCase } from "@/use-cases/groups/simulator.js"
+import { PrismaGroupsRepository } from '@/repositories/prisma/groups-prisma-repository.js'
+import { SimulatorUseCase } from '@/use-cases/groups/simulator.js'
 
 export function makeSimulatorUseCase() {
-
-    const groupsRepository = new PrismaGroupsRepository()
-    return new SimulatorUseCase(groupsRepository)
+  const groupsRepository = new PrismaGroupsRepository()
+  return new SimulatorUseCase(groupsRepository)
 }

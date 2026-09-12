@@ -1,10 +1,10 @@
-import type { GroupsRepository } from "@/repositories/groups-repository.js"
+import type { GroupsRepository } from '@/repositories/groups-repository.js'
 
 export class ReadGroupsUseCase {
-    constructor(private groupsRepository: GroupsRepository) {}
-    async execute() {
-        const groups = await this.groupsRepository.readMany()
+  constructor(private groupsRepository: GroupsRepository) {}
+  async execute() {
+    const groups = await this.groupsRepository.readMany()
 
-        return groups
-    }
+    return groups
+  }
 }

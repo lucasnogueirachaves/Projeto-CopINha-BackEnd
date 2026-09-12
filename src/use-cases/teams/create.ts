@@ -1,55 +1,54 @@
-import type { TeamsRepository } from "@/repositories/teams-repository.js"
-import type { GroupsRepository } from "@/repositories/groups-repository.js"
-import type { Team } from "@/generated/prisma/client.js"
-import { ResourceNotFoundError } from "../errors/resource-not-found-error.js"
+import type { TeamsRepository } from '@/repositories/teams-repository.js'
+import type { GroupsRepository } from '@/repositories/groups-repository.js'
+import type { Team } from '@/generated/prisma/client.js'
+import { ResourceNotFoundError } from '../errors/resource-not-found-error.js'
 
 interface CreateTeamUseCaseRequest {
-    name: string
-    acronym: string
-    flag: string
-    groupId: string
+  name: string
+  acronym: string
+  flag: string
+  groupId: string
 }
 
 type CreateTeamUseCaseResponse = {
-    team: Team
+  team: Team
 }
 
 export class CreateTeamUseCase {
-    constructor(
-        private teamsRepository: TeamsRepository,
-        private groupsRepository: GroupsRepository
-    ) {}
+  constructor(
+    private teamsRepository: TeamsRepository,
+    private groupsRepository: GroupsRepository,
+  ) {}
 
-    async execute({
-        name,
-        acronym,
-        flag,
-        groupId
-    }: CreateTeamUseCaseRequest): Promise<CreateTeamUseCaseResponse> {
+  async execute({
+    name,
+    acronym,
+    flag,
+    groupId,
+  }: CreateTeamUseCaseRequest): Promise<CreateTeamUseCaseResponse> {
+    const group = await this.groupsRepository.readId(groupId)
 
-        const group = await this.groupsRepository.readId(groupId)
-
-        if (!group) {
-            throw new ResourceNotFoundError()
-        }
-
-        const teamsCount = await this.groupsRepository.countTeams(group.id)
-
-        if (teamsCount >= 4) {
-            throw new Error("O grupo já possui 4 times")
-        }
-
-        const team = await this.teamsRepository.create({
-            name,
-            acronym,
-            flag,
-            group: {
-                connect: {
-                    id: group.id
-                }
-            }
-        })
-
-        return { team }
+    if (!group) {
+      throw new ResourceNotFoundError()
     }
+
+    const teamsCount = await this.groupsRepository.countTeams(group.id)
+
+    if (teamsCount >= 4) {
+      throw new Error('O grupo já possui 4 times')
+    }
+
+    const team = await this.teamsRepository.create({
+      name,
+      acronym,
+      flag,
+      group: {
+        connect: {
+          id: group.id,
+        },
+      },
+    })
+
+    return { team }
+  }
 }

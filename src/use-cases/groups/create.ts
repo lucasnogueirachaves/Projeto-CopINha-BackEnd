@@ -1,21 +1,24 @@
-import type { GroupsRepository } from "@/repositories/groups-repository.js"
-import type { Group } from "@/generated/prisma/client.js"
+import type { GroupsRepository } from '@/repositories/groups-repository.js'
+import type { Group } from '@/generated/prisma/client.js'
 
 interface CreateGroupUseCaseRequest {
-    name: string
+  name: string
 }
 
 type CreateGroupUseCaseResponse = {
-    group: Group
+  group: Group
 }
 
 export class CreateGroupUseCase {
-    constructor(private groupsRepository: GroupsRepository) {}
+  constructor(private groupsRepository: GroupsRepository) {}
 
-    async execute({name}: CreateGroupUseCaseRequest): Promise<CreateGroupUseCaseResponse> {
+  async execute({
+    name,
+  }: CreateGroupUseCaseRequest): Promise<CreateGroupUseCaseResponse> {
+    const group = await this.groupsRepository.create({
+      name,
+    })
 
-        const group = await this.groupsRepository.create({name})
-
-        return { group }
-    }
+    return { group }
+  }
 }

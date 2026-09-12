@@ -6,9 +6,9 @@ import { verifyJwt } from '../middleware/verify-jwt.js'
 import { deleteNews } from './deleteNews.js'
 
 export function newsRoutes(app: any) {
-    app.get('/news', listNews)
-    app.get('/news/:id/related', listRelatedNews)
-    app.get('/news/:id', getNews)
-    app.post('/news',{onRequest: verifyJwt}, createNews)
-    app.delete('/news/:id', {onRequest: verifyJwt}, deleteNews)
+  app.get('/news', listNews)
+  app.get('/news/:id/related', listRelatedNews)
+  app.get('/news/:id', getNews)
+  app.post('/news', { onRequest: verifyJwt }, createNews)
+  app.delete('/news/:id', { onRequest: verifyJwt }, deleteNews)
 }

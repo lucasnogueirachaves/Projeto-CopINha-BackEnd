@@ -1,9 +1,11 @@
-import type { FastifyReply, FastifyRequest } from 'fastify';
+import type { FastifyReply, FastifyRequest } from 'fastify'
 
 export async function verifyJwt(request: FastifyRequest, reply: FastifyReply) {
   try {
     await request.jwtVerify()
   } catch (err) {
-    return reply.status(401).send({ message: 'Token inválido/expirado ou ausente' })
+    return reply.status(401).send({
+      message: 'Token inválido/expirado ou ausente',
+    })
   }
 }

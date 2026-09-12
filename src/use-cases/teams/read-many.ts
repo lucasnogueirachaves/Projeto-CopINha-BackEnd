@@ -1,10 +1,10 @@
-import type { TeamsRepository } from "@/repositories/teams-repository.js"
+import type { TeamsRepository } from '@/repositories/teams-repository.js'
 
 export class ReadTeamsUseCase {
-    constructor(private teamsRepository: TeamsRepository) {}
-    async execute() {
-        const teams = await this.teamsRepository.readMany()
+  constructor(private teamsRepository: TeamsRepository) {}
+  async execute() {
+    const teams = await this.teamsRepository.readMany()
 
-        return teams
-    }
+    return teams
+  }
 }
